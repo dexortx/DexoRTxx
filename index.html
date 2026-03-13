@@ -6,90 +6,109 @@
 <title>DexoRTX</title>
 
 <style>
-body{margin:0;font-family:Arial;color:white;text-align:center;overflow-x:hidden}
 
-body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(270deg,#ff0000,#9400d3,#000,#ff0000);background-size:800% 800%;animation:bg 20s ease infinite}
-@keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+body{margin:0;font-family:Arial;background:#05070c;color:white}
 
-header{padding:40px;background:rgba(0,0,0,.6);border-bottom:3px solid red}
-h1{font-size:46px;margin:5px}
-
-.home-buttons button{
-padding:18px 35px;margin:10px;font-size:18px;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(45deg,red,purple);color:white;box-shadow:0 0 15px red;transition:.3s
+header{
+padding:20px;
+background:linear-gradient(90deg,#020617,#0f172a,#020617);
+border-bottom:2px solid #ef4444;
+position:sticky;top:0;z-index:10
 }
 
-.home-buttons button:hover{transform:scale(1.1)}
+h1{margin:0;font-size:40px;color:#60a5fa}
 
-section{display:none;padding:40px}
+.topbar{position:absolute;right:20px;top:20px}
+
+.topbar button{
+padding:8px 16px;border:none;border-radius:6px;background:#ef4444;color:white;cursor:pointer
+}
+
+.menuButton{
+position:absolute;
+left:20px;
+top:20px;
+padding:8px 16px;
+background:#1e293b;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer
+}
+
+.home-buttons button{
+padding:18px 35px;margin:10px;font-size:18px;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(45deg,#3b82f6,#ef4444);color:white
+}
+
+section{display:none;padding:30px}
 
 .list{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-max-width:1200px;
-margin:auto
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:18px;
+max-width:1400px;margin:auto
 }
 
 .card{
-background:#111;
+background:#0f172a;
 border-radius:12px;
 overflow:hidden;
 cursor:pointer;
-transition:.3s;
-box-shadow:0 0 10px rgba(0,0,0,.7)
+transition:.25s;
+box-shadow:0 0 10px #000
 }
 
-.card img{width:100%;height:280px;object-fit:cover}
-.card-info{padding:10px}
+.card:hover{transform:scale(1.07);box-shadow:0 0 20px #3b82f6}
 
-.card:hover{transform:scale(1.08);box-shadow:0 0 20px red}
+.card img{width:100%;height:260px;object-fit:cover}
+.card-info{padding:8px}
 
-.rating{color:gold;font-weight:bold}
-
-.back{
-margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:red;color:white;cursor:pointer
-}
+.rating{color:#facc15}
 
 #details{
-display:none;
-padding:30px;
-max-width:800px;
+max-width:950px;
 margin:40px auto;
-background:#0a0a0a;
-border-radius:15px;
-box-shadow:0 0 25px red
+background:#0f172a;
+padding:30px;
+border-radius:12px;
+display:none;
+text-align:left
 }
 
 .buttons button{
-margin:6px;padding:10px 16px;border:none;border-radius:8px;background:purple;color:white;cursor:pointer
+margin:6px;padding:10px;border:none;border-radius:6px;background:#2563eb;color:white;cursor:pointer
 }
 
-/* LOGIN UI */
-#loginScreen{
+.back{margin-top:20px;padding:10px 20px;border:none;border-radius:6px;background:#ef4444;color:white;cursor:pointer}
+
+#sidebar{
 position:fixed;
-left:0;top:0;width:100%;height:100%;
-background:#000;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:999
+left:-260px;
+top:0;
+width:260px;
+height:100%;
+background:#020617;
+padding:20px;
+transition:.3s;
+z-index:20
 }
 
-.login-box{
-background:#111;padding:40px;border-radius:12px;box-shadow:0 0 20px red;width:300px
+#sidebar h3{margin-top:0;color:#60a5fa}
+
+#sidebar button{
+display:block;
+width:100%;
+margin:8px 0;
+padding:8px;
+background:#1e293b;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer
 }
 
-.login-box input{
-width:90%;padding:10px;margin:10px;border:none;border-radius:6px
-}
-
-.login-box button{
-padding:10px 20px;border:none;border-radius:6px;background:red;color:white;margin:5px;cursor:pointer
-}
-
-.userbar{
-position:absolute;right:20px;top:15px;font-size:14px
+.ps5{
+background:linear-gradient(120deg,#020617,#0b1120,#1d4ed8);
 }
 
 </style>
@@ -97,29 +116,22 @@ position:absolute;right:20px;top:15px;font-size:14px
 
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-
-<div class="login-box">
-<h2>DexoRTX Login</h2>
-
-<input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
-
-<div>
-<button onclick="registerUser()">Register</button>
-<button onclick="loginUser()">Login</button>
-</div>
-
-</div>
-
+<div id="sidebar">
+<h3>Filters</h3>
+<button onclick="sortRating()">Best Ratings</button>
+<button onclick="filterGenre('Crime')">Crime</button>
+<button onclick="filterGenre('Action')">Action</button>
+<button onclick="filterGenre('Drama')">Drama</button>
+<button onclick="closeMenu()">Close</button>
 </div>
 
 <header id="home">
 
-<div class="userbar">
-<span id="currentUser"></span>
-<button onclick="logout()">Logout</button>
+<button class="menuButton" onclick="openMenu()">☰</button>
+
+<div class="topbar">
+<span id="userLabel">Guest</span>
+<button onclick="fakeLogin()">Login</button>
 </div>
 
 <h1>DexoRTX</h1>
@@ -129,12 +141,13 @@ position:absolute;right:20px;top:15px;font-size:14px
 <button onclick="showSection('gamesMenu')">🎮 Games</button>
 <button onclick="showSection('moviesMenu')">🎬 Movies</button>
 </div>
+
 </header>
 
 <section id="gamesMenu">
 <div class="list">
-<div class="card" onclick="showSection('freeGames')"><div class="card-info">Free Games</div></div>
-<div class="card" onclick="showSection('paidGames')"><div class="card-info">Paid Games</div></div>
+<div class="card" onclick="openGames('freeGames')"><div class="card-info">Free Games</div></div>
+<div class="card" onclick="openGames('paidGames')"><div class="card-info">Paid Games</div></div>
 </div>
 <button class="back" onclick="goHome()">Back</button>
 </section>
@@ -143,63 +156,21 @@ position:absolute;right:20px;top:15px;font-size:14px
 <section id="paidGames"><div class="list" id="paidGamesList"></div><button class="back" onclick="showSection('gamesMenu')">Back</button></section>
 
 <section id="moviesMenu">
-<div class="list">
-<div class="card" onclick="showSection('allMovies')"><div class="card-info">All Movies</div></div>
-</div>
+<div class="list" id="moviesList"></div>
 <button class="back" onclick="goHome()">Back</button>
 </section>
-
-<section id="allMovies"><div class="list" id="moviesList"></div><button class="back" onclick="showSection('moviesMenu')">Back</button></section>
 
 <div id="details"></div>
 
 <script>
 
-/* LOGIN SYSTEM */
-
-function registerUser(){
- const user=document.getElementById('username').value
- const pass=document.getElementById('password').value
-
- if(!user||!pass){
- alert('Enter username and password')
- return
- }
-
- localStorage.setItem('dexortx_'+user,pass)
- alert('User registered! Now login.')
+function fakeLogin(){
+ const name=prompt("Enter username")
+ if(name) document.getElementById("userLabel").innerText=name
 }
 
-function loginUser(){
- const user=document.getElementById('username').value
- const pass=document.getElementById('password').value
-
- const saved=localStorage.getItem('dexortx_'+user)
-
- if(saved===pass){
- localStorage.setItem('dexortx_logged',user)
- startSite()
- }
- else{
- alert('Invalid login')
- }
-}
-
-function logout(){
- localStorage.removeItem('dexortx_logged')
- location.reload()
-}
-
-function startSite(){
- const user=localStorage.getItem('dexortx_logged')
-
- if(!user) return
-
- document.getElementById('loginScreen').style.display='none'
- document.getElementById('currentUser').innerText='User: '+user
-}
-
-/* PAGE SYSTEM */
+function openMenu(){document.getElementById("sidebar").style.left="0"}
+function closeMenu(){document.getElementById("sidebar").style.left="-260px"}
 
 function showSection(section){
  document.getElementById("home").style.display="none"
@@ -207,7 +178,13 @@ function showSection(section){
  document.getElementById(section).style.display="block"
 }
 
+function openGames(section){
+ document.body.classList.add("ps5")
+ showSection(section)
+}
+
 function goHome(){
+ document.body.classList.remove("ps5")
  document.getElementById("home").style.display="block"
  document.querySelectorAll("section").forEach(s=>s.style.display="none")
  document.getElementById("details").style.display="none"
@@ -225,41 +202,104 @@ function cardHTML(name,rating,img){
 
 function generate(container,data){
  container.innerHTML=""
- data.forEach(d=>{
- container.innerHTML+=cardHTML(d.name,d.rating,d.img)
- })
+ data.forEach(d=>container.innerHTML+=cardHTML(d.name,d.rating,d.img))
 }
 
 function openDetails(name){
  const item=database[name]
  const box=document.getElementById("details")
 
+ if(item.type==="game"){
  box.innerHTML=`
- <h2>${name}</h2>
+ <h2>${item.name}</h2>
+ <img src="${item.img}" width="200">
  <p>${item.desc}</p>
- <p class="rating">⭐ Rating: ${item.rating}</p>
+
+ <h3>Game Details</h3>
+ <p><b>Developer:</b> ${item.developer}</p>
+ <p><b>Publisher:</b> ${item.publisher}</p>
+ <p><b>Genre:</b> ${item.genre}</p>
+ <p><b>Platforms:</b> ${item.platform}</p>
+ <p><b>Release:</b> ${item.release}</p>
+
+ <h3>System Requirements</h3>
+ <p>${item.specs}</p>
 
  <div class="buttons">
- <button onclick="window.open('https://www.youtube.com/results?search_query=${name}+trailer')">Watch Trailer</button>
- <button onclick="window.open('https://www.netflix.com')">Netflix</button>
- <button onclick="window.open('https://netmirror.app')">NetMirror</button>
- <button onclick="window.open('https://www.primevideo.com')">Prime</button>
+ <button onclick="window.open('https://www.youtube.com/results?search_query=${item.name}+gameplay')">Gameplay</button>
+ <button onclick="window.open('https://store.steampowered.com/search/?term=${item.name}')">Download</button>
  </div>
 
  <button class="back" onclick="goHome()">Back</button>
  `
+ }
+
+ else{
+ box.innerHTML=`
+ <h2>${item.name}</h2>
+ <img src="${item.img}" width="200">
+ <p>${item.desc}</p>
+
+ <h3>Movie Details</h3>
+ <p><b>Director:</b> ${item.director}</p>
+ <p><b>Producer:</b> ${item.producer}</p>
+ <p><b>Actors:</b> ${item.actors}</p>
+ <p><b>Genre:</b> ${item.genre}</p>
+ <p><b>Release:</b> ${item.release}</p>
+
+ <div class="buttons">
+ <button onclick="window.open('https://www.youtube.com/results?search_query=${item.name}+trailer')">Trailer</button>
+ <button onclick="window.open('https://www.netflix.com/search?q=${item.name}')">Watch</button>
+ </div>
+
+ <button class="back" onclick="goHome()">Back</button>
+ `
+ }
 
  box.style.display="block"
  document.querySelectorAll("section").forEach(s=>s.style.display="none")
 }
 
-/* DATABASE */
-
 const database={}
 
-function addItem(name,rating,type){
- const img=`https://via.placeholder.com/300x400?text=${encodeURIComponent(name)}`
- database[name]={name,rating,img,desc:`${name} is one of the popular ${type} titles.`}
+function moviePoster(name){
+ return `https://source.unsplash.com/300x450/?movie,${encodeURIComponent(name)}`
+}
+
+function gamePoster(name){
+ return `https://source.unsplash.com/300x450/?game,${encodeURIComponent(name)}`
+}
+
+function addMovie(name){
+ database[name]={
+ name,
+ type:"movie",
+ rating:(Math.random()*4+6).toFixed(1),
+ img:moviePoster(name),
+ desc:`${name} is a popular film known for its storytelling and strong performances.`,
+ director:"Famous Director",
+ producer:"Major Studio",
+ actors:"Actor A, Actor B, Actor C",
+ genre:["Crime","Drama","Action"][Math.floor(Math.random()*3)],
+ release:1990+Math.floor(Math.random()*30)
+ }
+ return database[name]
+}
+
+function addGame(name){
+ database[name]={
+ name,
+ type:"game",
+ rating:(Math.random()*5+5).toFixed(1),
+ img:gamePoster(name),
+ desc:`${name} is an action video game with competitive gameplay.`,
+ developer:"AAA Studio",
+ publisher:"Major Publisher",
+ genre:["Action","Shooter","Adventure"][Math.floor(Math.random()*3)],
+ platform:"PC • PS5 • Xbox",
+ release:2005+Math.floor(Math.random()*20),
+ specs:"8GB RAM • GTX1060 • 50GB Storage"
+ }
  return database[name]
 }
 
@@ -267,39 +307,35 @@ const freeGames=[]
 const paidGames=[]
 const movies=[]
 
-const gameNames=[
-"Apex Legends","Fortnite","Warframe","Genshin Impact","Destiny 2",
-"God of War Ragnarök","Elden Ring","Spider-Man 2","Final Fantasy XVI","Baldur's Gate 3"
-]
+const gameNames=["Apex Legends","Fortnite","Warframe","Destiny 2","Genshin Impact","Elden Ring","God of War","Cyberpunk 2077","Minecraft","Valorant"]
 
-for(let i=0;i<120;i++){
- const base=gameNames[i%gameNames.length]
- const name=base+" "+(i+1)
- const rating=(Math.random()*5+5).toFixed(1)
- const obj=addItem(name,rating,"game")
- if(i<60) freeGames.push(obj)
+for(let i=0;i<1000;i++){
+ const g=gameNames[i%gameNames.length]+" "+(i+1)
+ const obj=addGame(g)
+ if(i<500)freeGames.push(obj)
  else paidGames.push(obj)
 }
 
-const movieNames=[
-"The Godfather","Pulp Fiction","Se7en","Zodiac","Chinatown","Gladiator","Inception","The Matrix","Avatar","Jurassic Park"
-]
+const movieNames=["The Godfather","Pulp Fiction","Se7en","Zodiac","Chinatown","Inception","The Matrix","Gladiator","Interstellar","The Dark Knight"]
 
-for(let i=0;i<400;i++){
- const base=movieNames[i%movieNames.length]
- const name=base+" "+(i+1)
- const rating=(Math.random()*4+6).toFixed(1)
- const obj=addItem(name,rating,"movie")
- movies.push(obj)
+for(let i=0;i<1000;i++){
+ const m=movieNames[i%movieNames.length]+" "+(i+1)
+ movies.push(addMovie(m))
 }
 
-/* LOAD */
+function sortRating(){
+ movies.sort((a,b)=>b.rating-a.rating)
+ generate(document.getElementById("moviesList"),movies)
+}
+
+function filterGenre(g){
+ const filtered=movies.filter(m=>m.genre===g)
+ generate(document.getElementById("moviesList"),filtered)
+}
 
 generate(document.getElementById("freeGamesList"),freeGames)
 generate(document.getElementById("paidGamesList"),paidGames)
 generate(document.getElementById("moviesList"),movies)
-
-startSite()
 
 </script>
 
