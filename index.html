@@ -1,0 +1,391 @@
+zsdaxss<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DexoRTX</title>
+
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* Animated Gradient Background */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  background: linear-gradient(270deg, #ff0000, #9400d3, #000, #ff0000);
+  background-size: 800% 800%;
+  animation: GradientBG 20s ease infinite;
+}
+
+@keyframes GradientBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+header{
+  padding:50px;
+  background: rgba(0,0,0,0.6);
+  border-bottom:3px solid red;
+}
+
+h1{
+  font-size:50px;
+  color:white;
+  letter-spacing:2px;
+}
+
+#search{
+  margin-top:20px;
+  padding:14px;
+  width:60%;
+  max-width:500px;
+  border-radius:25px;
+  border:none;
+  font-size:16px;
+}
+
+.home-buttons{
+  margin-top:30px;
+}
+
+.home-buttons button{
+  padding:18px 35px;
+  margin:10px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:linear-gradient(45deg,red,purple);
+  color:white;
+  box-shadow:0 0 15px red;
+  transition:0.3s;
+}
+
+.home-buttons button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 25px purple;
+}
+
+section{
+  display:none;
+  padding:40px;
+}
+
+.list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.item{
+  background:#111;
+  padding:15px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+  border:1px solid #333;
+}
+
+.item:hover{
+  background:#300000;
+  transform:scale(1.05);
+}
+
+#details{
+  display:none;
+  padding:30px;
+  max-width:700px;
+  margin:40px auto;
+  background:#0a0a0a;
+  border-radius:15px;
+  box-shadow:0 0 25px red;
+}
+
+.back{
+  margin-top:20px;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  background:red;
+  color:white;
+  cursor:pointer;
+}
+
+.search-results{
+  display:none;
+  padding:20px;
+  margin-top:10px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+  background:rgba(0,0,0,0.7);
+  border-radius:12px;
+  text-align:left;
+}
+
+.search-results h3{
+  margin-bottom:5px;
+  border-bottom:1px solid purple;
+}
+
+.search-results div{
+  cursor:pointer;
+  padding:5px 10px;
+  border-radius:6px;
+  margin:3px 0;
+  transition:0.2s;
+}
+
+.search-results div:hover{
+  background:rgba(128,0,128,0.5);
+}
+</style>
+
+</head>
+
+<body>
+
+<header id="home">
+<h1>DexoRTX</h1>
+<p>PS5 Top Games • Anime • Movies</p>
+
+<input id="search" placeholder="Search Top PS5 Games..." oninput="showSearchResults()">
+<div id="searchResults" class="search-results"></div>
+
+<div class="home-buttons">
+<button onclick="showSection('games')">🎮 Games</button>
+<button onclick="showSection('movies')">🎬 Movies</button>
+<button onclick="showSection('anime')">🍥 Anime</button>
+</div>
+</header>
+
+<section id="games">
+<h2>Top PS5 Games</h2>
+<div class="list" id="gamesList"></div>
+<button class="back" onclick="goHome()">Back</button>
+</section>
+
+<section id="movies">
+<h2>Movies</h2>
+<div class="list" id="moviesList"></div>
+<button class="back" onclick="goHome()">Back</button>
+</section>
+
+<section id="anime">
+<h2>Anime</h2>
+<div class="list" id="animeList"></div>
+<button class="back" onclick="goHome()">Back</button>
+</section>
+
+<div id="details"></div>
+
+<script>
+const database={
+"Marvel's Spider-Man 2":{
+type:"Action",
+description:"Play as Peter Parker and Miles Morales fighting villains in open-world New York.",
+category:"Action-adventure",
+platform:"PS5"
+},
+"God of War Ragnarök":{
+type:"RPG",
+description:"Epic Norse mythology adventure with Kratos and Atreus.",
+category:"Action / RPG",
+platform:"PS5"
+},
+"Elden Ring":{
+type:"RPG",
+description:"Massive dark fantasy open-world RPG.",
+category:"Open-world",
+platform:"PS5 / PC / Xbox"
+},
+"Baldur's Gate 3":{
+type:"RPG",
+description:"Turn-based RPG based on Dungeons & Dragons.",
+category:"Turn-based RPG",
+platform:"PS5 / PC"
+},
+"Final Fantasy XVI":{
+type:"RPG",
+description:"Story-driven fantasy action RPG.",
+category:"Action RPG",
+platform:"PS5"
+},
+"Final Fantasy VII Rebirth":{
+type:"RPG",
+description:"Modern remake continuation of classic JRPG.",
+category:"JRPG",
+platform:"PS5"
+},
+"Dragon's Dogma 2":{
+type:"RPG",
+description:"Fantasy RPG with huge monsters.",
+category:"Fantasy RPG",
+platform:"PS5"
+},
+"The Witcher 3: Wild Hunt":{
+type:"RPG",
+description:"Legendary RPG with PS5 upgrade.",
+category:"Open-world",
+platform:"PS5 / PC / Xbox"
+},
+"Cyberpunk 2077":{
+type:"RPG",
+description:"Futuristic open-world RPG in Night City.",
+category:"Open-world",
+platform:"PS5 / PC / Xbox"
+},
+"Diablo IV":{
+type:"RPG",
+description:"Dark dungeon-crawler RPG.",
+category:"Dungeon RPG",
+platform:"PS5 / PC / Xbox"
+},
+"Monster Hunter Wilds":{
+type:"RPG",
+description:"Hunt giant monsters in open areas.",
+category:"Monster-hunting",
+platform:"PS5"
+},
+"Monster Hunter Rise":{
+type:"RPG",
+description:"Fast-paced monster-hunting RPG.",
+category:"Monster-hunting",
+platform:"PS5 / Switch"
+},
+"Horizon Forbidden West":{
+type:"RPG",
+description:"Open-world RPG where Aloy fights robotic creatures.",
+category:"Open-world",
+platform:"PS5"
+},
+"Ratchet & Clank: Rift Apart":{
+type:"Platformer",
+description:"Sci-fi platformer with dimension-jumping gameplay.",
+category:"Platformer",
+platform:"PS5"
+},
+"Demon's Souls":{
+type:"RPG",
+description:"Dark fantasy action RPG famous for tough combat.",
+category:"Action RPG",
+platform:"PS5"
+},
+"Returnal":{
+type:"RPG",
+description:"Sci-fi roguelike shooter with time-loop mechanics.",
+category:"Shooter / Action",
+platform:"PS5"
+},
+"Astro Bot":{
+type:"Platformer",
+description:"Platformer showing off PS5 features.",
+category:"Platformer",
+platform:"PS5"
+},
+"Astro's Playroom":{
+type:"Platformer",
+description:"Free PS5 platformer demonstrating DualSense features.",
+category:"Platformer",
+platform:"PS5"
+},
+"Stellar Blade":{
+type:"Action",
+description:"Action adventure saving humanity from alien creatures.",
+category:"Action Adventure",
+platform:"PS5"
+},
+"Ghost of Yōtei":{
+type:"Action",
+description:"Samurai revenge adventure set in feudal Japan.",
+category:"Action / Adventure",
+platform:"PS5"
+}
+};
+
+const games = Object.keys(database);
+
+function generate(list,container){
+  container.innerHTML="";
+  list.forEach(name=>{
+    let div=document.createElement("div");
+    div.className="item";
+    div.innerText=name;
+    div.onclick=()=>showDetails(name);
+    container.appendChild(div);
+  });
+}
+
+generate(games,document.getElementById("gamesList"));
+
+function showSection(section){
+  document.getElementById("home").style.display="none";
+  document.getElementById(section).style.display="block";
+  document.getElementById("searchResults").style.display="none";
+}
+
+function goHome(){
+  document.getElementById("home").style.display="block";
+  document.querySelectorAll("section").forEach(s=>s.style.display="none");
+  document.getElementById("details").style.display="none";
+  document.getElementById("searchResults").style.display="none";
+}
+
+function showDetails(name){
+  let data=database[name];
+  let box=document.getElementById("details");
+  box.innerHTML=`
+    <h2>${name}</h2>
+    <p><b>Category:</b> ${data.category}</p>
+    <p><b>Type:</b> ${data.type}</p>
+    <p><b>Platform:</b> ${data.platform}</p>
+    <p>${data.description}</p>
+    <button class="back" onclick="goHome()">Back</button>
+  `;
+  box.style.display="block";
+  document.getElementById("home").style.display="none";
+  document.querySelectorAll("section").forEach(s=>s.style.display="none");
+  document.getElementById("searchResults").style.display="none";
+}
+
+function showSearchResults(){
+  let input=document.getElementById("search").value.toLowerCase();
+  let results=document.getElementById("searchResults");
+  results.innerHTML="";
+  if(input===""){
+    results.style.display="none";
+    return;
+  }
+  games.forEach(name=>{
+    if(name.toLowerCase().includes(input)){
+      let div=document.createElement("div");
+      div.innerText=name;
+      div.onclick=()=>showDetails(name);
+      results.appendChild(div);
+    }
+  });
+  if(results.children.length>0){
+    results.style.display="block";
+  } else {
+    results.style.display="none";
+  }
+}
+</script>
+
+</body>
+</html>
