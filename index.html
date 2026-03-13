@@ -1,5 +1,4 @@
-zsdaxss<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,384 +6,301 @@ zsdaxss<!DOCTYPE html>
 <title>DexoRTX</title>
 
 <style>
-body {
-  margin:0;
-  font-family:Arial;
-  color:white;
-  text-align:center;
-  overflow-x:hidden;
-}
+body{margin:0;font-family:Arial;color:white;text-align:center;overflow-x:hidden}
 
-/* Animated Gradient Background */
-body::before{
-  content:"";
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:-1;
-  background: linear-gradient(270deg, #ff0000, #9400d3, #000, #ff0000);
-  background-size: 800% 800%;
-  animation: GradientBG 20s ease infinite;
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(270deg,#ff0000,#9400d3,#000,#ff0000);background-size:800% 800%;animation:bg 20s ease infinite}
+@keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-@keyframes GradientBG{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-
-header{
-  padding:50px;
-  background: rgba(0,0,0,0.6);
-  border-bottom:3px solid red;
-}
-
-h1{
-  font-size:50px;
-  color:white;
-  letter-spacing:2px;
-}
-
-#search{
-  margin-top:20px;
-  padding:14px;
-  width:60%;
-  max-width:500px;
-  border-radius:25px;
-  border:none;
-  font-size:16px;
-}
-
-.home-buttons{
-  margin-top:30px;
-}
+header{padding:40px;background:rgba(0,0,0,.6);border-bottom:3px solid red}
+h1{font-size:46px;margin:5px}
 
 .home-buttons button{
-  padding:18px 35px;
-  margin:10px;
-  font-size:18px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:linear-gradient(45deg,red,purple);
-  color:white;
-  box-shadow:0 0 15px red;
-  transition:0.3s;
+padding:18px 35px;margin:10px;font-size:18px;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(45deg,red,purple);color:white;box-shadow:0 0 15px red;transition:.3s
 }
 
-.home-buttons button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 25px purple;
-}
+.home-buttons button:hover{transform:scale(1.1)}
 
-section{
-  display:none;
-  padding:40px;
-}
+section{display:none;padding:40px}
 
 .list{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-  max-width:1100px;
-  margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+max-width:1200px;
+margin:auto
 }
 
-.item{
-  background:#111;
-  padding:15px;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
-  border:1px solid #333;
+.card{
+background:#111;
+border-radius:12px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+box-shadow:0 0 10px rgba(0,0,0,.7)
 }
 
-.item:hover{
-  background:#300000;
-  transform:scale(1.05);
+.card img{width:100%;height:280px;object-fit:cover}
+.card-info{padding:10px}
+
+.card:hover{transform:scale(1.08);box-shadow:0 0 20px red}
+
+.rating{color:gold;font-weight:bold}
+
+.back{
+margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:red;color:white;cursor:pointer
 }
 
 #details{
-  display:none;
-  padding:30px;
-  max-width:700px;
-  margin:40px auto;
-  background:#0a0a0a;
-  border-radius:15px;
-  box-shadow:0 0 25px red;
+display:none;
+padding:30px;
+max-width:800px;
+margin:40px auto;
+background:#0a0a0a;
+border-radius:15px;
+box-shadow:0 0 25px red
 }
 
-.back{
-  margin-top:20px;
-  padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  background:red;
-  color:white;
-  cursor:pointer;
+.buttons button{
+margin:6px;padding:10px 16px;border:none;border-radius:8px;background:purple;color:white;cursor:pointer
 }
 
-.search-results{
-  display:none;
-  padding:20px;
-  margin-top:10px;
-  max-width:600px;
-  margin-left:auto;
-  margin-right:auto;
-  background:rgba(0,0,0,0.7);
-  border-radius:12px;
-  text-align:left;
+/* LOGIN UI */
+#loginScreen{
+position:fixed;
+left:0;top:0;width:100%;height:100%;
+background:#000;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999
 }
 
-.search-results h3{
-  margin-bottom:5px;
-  border-bottom:1px solid purple;
+.login-box{
+background:#111;padding:40px;border-radius:12px;box-shadow:0 0 20px red;width:300px
 }
 
-.search-results div{
-  cursor:pointer;
-  padding:5px 10px;
-  border-radius:6px;
-  margin:3px 0;
-  transition:0.2s;
+.login-box input{
+width:90%;padding:10px;margin:10px;border:none;border-radius:6px
 }
 
-.search-results div:hover{
-  background:rgba(128,0,128,0.5);
+.login-box button{
+padding:10px 20px;border:none;border-radius:6px;background:red;color:white;margin:5px;cursor:pointer
 }
+
+.userbar{
+position:absolute;right:20px;top:15px;font-size:14px
+}
+
 </style>
-
 </head>
 
 <body>
 
-<header id="home">
-<h1>DexoRTX</h1>
-<p>PS5 Top Games • Anime • Movies</p>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
 
-<input id="search" placeholder="Search Top PS5 Games..." oninput="showSearchResults()">
-<div id="searchResults" class="search-results"></div>
+<div class="login-box">
+<h2>DexoRTX Login</h2>
+
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+
+<div>
+<button onclick="registerUser()">Register</button>
+<button onclick="loginUser()">Login</button>
+</div>
+
+</div>
+
+</div>
+
+<header id="home">
+
+<div class="userbar">
+<span id="currentUser"></span>
+<button onclick="logout()">Logout</button>
+</div>
+
+<h1>DexoRTX</h1>
+<p>Games • Movies</p>
 
 <div class="home-buttons">
-<button onclick="showSection('games')">🎮 Games</button>
-<button onclick="showSection('movies')">🎬 Movies</button>
-<button onclick="showSection('anime')">🍥 Anime</button>
+<button onclick="showSection('gamesMenu')">🎮 Games</button>
+<button onclick="showSection('moviesMenu')">🎬 Movies</button>
 </div>
 </header>
 
-<section id="games">
-<h2>Top PS5 Games</h2>
-<div class="list" id="gamesList"></div>
+<section id="gamesMenu">
+<div class="list">
+<div class="card" onclick="showSection('freeGames')"><div class="card-info">Free Games</div></div>
+<div class="card" onclick="showSection('paidGames')"><div class="card-info">Paid Games</div></div>
+</div>
 <button class="back" onclick="goHome()">Back</button>
 </section>
 
-<section id="movies">
-<h2>Movies</h2>
-<div class="list" id="moviesList"></div>
+<section id="freeGames"><div class="list" id="freeGamesList"></div><button class="back" onclick="showSection('gamesMenu')">Back</button></section>
+<section id="paidGames"><div class="list" id="paidGamesList"></div><button class="back" onclick="showSection('gamesMenu')">Back</button></section>
+
+<section id="moviesMenu">
+<div class="list">
+<div class="card" onclick="showSection('allMovies')"><div class="card-info">All Movies</div></div>
+</div>
 <button class="back" onclick="goHome()">Back</button>
 </section>
 
-<section id="anime">
-<h2>Anime</h2>
-<div class="list" id="animeList"></div>
-<button class="back" onclick="goHome()">Back</button>
-</section>
+<section id="allMovies"><div class="list" id="moviesList"></div><button class="back" onclick="showSection('moviesMenu')">Back</button></section>
 
 <div id="details"></div>
 
 <script>
-const database={
-"Marvel's Spider-Man 2":{
-type:"Action",
-description:"Play as Peter Parker and Miles Morales fighting villains in open-world New York.",
-category:"Action-adventure",
-platform:"PS5"
-},
-"God of War Ragnarök":{
-type:"RPG",
-description:"Epic Norse mythology adventure with Kratos and Atreus.",
-category:"Action / RPG",
-platform:"PS5"
-},
-"Elden Ring":{
-type:"RPG",
-description:"Massive dark fantasy open-world RPG.",
-category:"Open-world",
-platform:"PS5 / PC / Xbox"
-},
-"Baldur's Gate 3":{
-type:"RPG",
-description:"Turn-based RPG based on Dungeons & Dragons.",
-category:"Turn-based RPG",
-platform:"PS5 / PC"
-},
-"Final Fantasy XVI":{
-type:"RPG",
-description:"Story-driven fantasy action RPG.",
-category:"Action RPG",
-platform:"PS5"
-},
-"Final Fantasy VII Rebirth":{
-type:"RPG",
-description:"Modern remake continuation of classic JRPG.",
-category:"JRPG",
-platform:"PS5"
-},
-"Dragon's Dogma 2":{
-type:"RPG",
-description:"Fantasy RPG with huge monsters.",
-category:"Fantasy RPG",
-platform:"PS5"
-},
-"The Witcher 3: Wild Hunt":{
-type:"RPG",
-description:"Legendary RPG with PS5 upgrade.",
-category:"Open-world",
-platform:"PS5 / PC / Xbox"
-},
-"Cyberpunk 2077":{
-type:"RPG",
-description:"Futuristic open-world RPG in Night City.",
-category:"Open-world",
-platform:"PS5 / PC / Xbox"
-},
-"Diablo IV":{
-type:"RPG",
-description:"Dark dungeon-crawler RPG.",
-category:"Dungeon RPG",
-platform:"PS5 / PC / Xbox"
-},
-"Monster Hunter Wilds":{
-type:"RPG",
-description:"Hunt giant monsters in open areas.",
-category:"Monster-hunting",
-platform:"PS5"
-},
-"Monster Hunter Rise":{
-type:"RPG",
-description:"Fast-paced monster-hunting RPG.",
-category:"Monster-hunting",
-platform:"PS5 / Switch"
-},
-"Horizon Forbidden West":{
-type:"RPG",
-description:"Open-world RPG where Aloy fights robotic creatures.",
-category:"Open-world",
-platform:"PS5"
-},
-"Ratchet & Clank: Rift Apart":{
-type:"Platformer",
-description:"Sci-fi platformer with dimension-jumping gameplay.",
-category:"Platformer",
-platform:"PS5"
-},
-"Demon's Souls":{
-type:"RPG",
-description:"Dark fantasy action RPG famous for tough combat.",
-category:"Action RPG",
-platform:"PS5"
-},
-"Returnal":{
-type:"RPG",
-description:"Sci-fi roguelike shooter with time-loop mechanics.",
-category:"Shooter / Action",
-platform:"PS5"
-},
-"Astro Bot":{
-type:"Platformer",
-description:"Platformer showing off PS5 features.",
-category:"Platformer",
-platform:"PS5"
-},
-"Astro's Playroom":{
-type:"Platformer",
-description:"Free PS5 platformer demonstrating DualSense features.",
-category:"Platformer",
-platform:"PS5"
-},
-"Stellar Blade":{
-type:"Action",
-description:"Action adventure saving humanity from alien creatures.",
-category:"Action Adventure",
-platform:"PS5"
-},
-"Ghost of Yōtei":{
-type:"Action",
-description:"Samurai revenge adventure set in feudal Japan.",
-category:"Action / Adventure",
-platform:"PS5"
-}
-};
 
-const games = Object.keys(database);
+/* LOGIN SYSTEM */
 
-function generate(list,container){
-  container.innerHTML="";
-  list.forEach(name=>{
-    let div=document.createElement("div");
-    div.className="item";
-    div.innerText=name;
-    div.onclick=()=>showDetails(name);
-    container.appendChild(div);
-  });
+function registerUser(){
+ const user=document.getElementById('username').value
+ const pass=document.getElementById('password').value
+
+ if(!user||!pass){
+ alert('Enter username and password')
+ return
+ }
+
+ localStorage.setItem('dexortx_'+user,pass)
+ alert('User registered! Now login.')
 }
 
-generate(games,document.getElementById("gamesList"));
+function loginUser(){
+ const user=document.getElementById('username').value
+ const pass=document.getElementById('password').value
+
+ const saved=localStorage.getItem('dexortx_'+user)
+
+ if(saved===pass){
+ localStorage.setItem('dexortx_logged',user)
+ startSite()
+ }
+ else{
+ alert('Invalid login')
+ }
+}
+
+function logout(){
+ localStorage.removeItem('dexortx_logged')
+ location.reload()
+}
+
+function startSite(){
+ const user=localStorage.getItem('dexortx_logged')
+
+ if(!user) return
+
+ document.getElementById('loginScreen').style.display='none'
+ document.getElementById('currentUser').innerText='User: '+user
+}
+
+/* PAGE SYSTEM */
 
 function showSection(section){
-  document.getElementById("home").style.display="none";
-  document.getElementById(section).style.display="block";
-  document.getElementById("searchResults").style.display="none";
+ document.getElementById("home").style.display="none"
+ document.querySelectorAll("section").forEach(s=>s.style.display="none")
+ document.getElementById(section).style.display="block"
 }
 
 function goHome(){
-  document.getElementById("home").style.display="block";
-  document.querySelectorAll("section").forEach(s=>s.style.display="none");
-  document.getElementById("details").style.display="none";
-  document.getElementById("searchResults").style.display="none";
+ document.getElementById("home").style.display="block"
+ document.querySelectorAll("section").forEach(s=>s.style.display="none")
+ document.getElementById("details").style.display="none"
 }
 
-function showDetails(name){
-  let data=database[name];
-  let box=document.getElementById("details");
-  box.innerHTML=`
-    <h2>${name}</h2>
-    <p><b>Category:</b> ${data.category}</p>
-    <p><b>Type:</b> ${data.type}</p>
-    <p><b>Platform:</b> ${data.platform}</p>
-    <p>${data.description}</p>
-    <button class="back" onclick="goHome()">Back</button>
-  `;
-  box.style.display="block";
-  document.getElementById("home").style.display="none";
-  document.querySelectorAll("section").forEach(s=>s.style.display="none");
-  document.getElementById("searchResults").style.display="none";
+function cardHTML(name,rating,img){
+ return `<div class="card" onclick="openDetails('${name}')">
+ <img src="${img}">
+ <div class="card-info">
+ <div>${name}</div>
+ <div class="rating">⭐ ${rating}</div>
+ </div>
+ </div>`
 }
 
-function showSearchResults(){
-  let input=document.getElementById("search").value.toLowerCase();
-  let results=document.getElementById("searchResults");
-  results.innerHTML="";
-  if(input===""){
-    results.style.display="none";
-    return;
-  }
-  games.forEach(name=>{
-    if(name.toLowerCase().includes(input)){
-      let div=document.createElement("div");
-      div.innerText=name;
-      div.onclick=()=>showDetails(name);
-      results.appendChild(div);
-    }
-  });
-  if(results.children.length>0){
-    results.style.display="block";
-  } else {
-    results.style.display="none";
-  }
+function generate(container,data){
+ container.innerHTML=""
+ data.forEach(d=>{
+ container.innerHTML+=cardHTML(d.name,d.rating,d.img)
+ })
 }
+
+function openDetails(name){
+ const item=database[name]
+ const box=document.getElementById("details")
+
+ box.innerHTML=`
+ <h2>${name}</h2>
+ <p>${item.desc}</p>
+ <p class="rating">⭐ Rating: ${item.rating}</p>
+
+ <div class="buttons">
+ <button onclick="window.open('https://www.youtube.com/results?search_query=${name}+trailer')">Watch Trailer</button>
+ <button onclick="window.open('https://www.netflix.com')">Netflix</button>
+ <button onclick="window.open('https://netmirror.app')">NetMirror</button>
+ <button onclick="window.open('https://www.primevideo.com')">Prime</button>
+ </div>
+
+ <button class="back" onclick="goHome()">Back</button>
+ `
+
+ box.style.display="block"
+ document.querySelectorAll("section").forEach(s=>s.style.display="none")
+}
+
+/* DATABASE */
+
+const database={}
+
+function addItem(name,rating,type){
+ const img=`https://via.placeholder.com/300x400?text=${encodeURIComponent(name)}`
+ database[name]={name,rating,img,desc:`${name} is one of the popular ${type} titles.`}
+ return database[name]
+}
+
+const freeGames=[]
+const paidGames=[]
+const movies=[]
+
+const gameNames=[
+"Apex Legends","Fortnite","Warframe","Genshin Impact","Destiny 2",
+"God of War Ragnarök","Elden Ring","Spider-Man 2","Final Fantasy XVI","Baldur's Gate 3"
+]
+
+for(let i=0;i<120;i++){
+ const base=gameNames[i%gameNames.length]
+ const name=base+" "+(i+1)
+ const rating=(Math.random()*5+5).toFixed(1)
+ const obj=addItem(name,rating,"game")
+ if(i<60) freeGames.push(obj)
+ else paidGames.push(obj)
+}
+
+const movieNames=[
+"The Godfather","Pulp Fiction","Se7en","Zodiac","Chinatown","Gladiator","Inception","The Matrix","Avatar","Jurassic Park"
+]
+
+for(let i=0;i<400;i++){
+ const base=movieNames[i%movieNames.length]
+ const name=base+" "+(i+1)
+ const rating=(Math.random()*4+6).toFixed(1)
+ const obj=addItem(name,rating,"movie")
+ movies.push(obj)
+}
+
+/* LOAD */
+
+generate(document.getElementById("freeGamesList"),freeGames)
+generate(document.getElementById("paidGamesList"),paidGames)
+generate(document.getElementById("moviesList"),movies)
+
+startSite()
+
 </script>
 
 </body>
